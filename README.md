@@ -7,10 +7,12 @@ Roadmap
 
 ## Docker ##
 
+### Virtual Mechine VS Docker ###
+
 ### Instalasi Docker ###
 
-## Spring Boot To Docker ##
+### Dockerfiles, Images and Containers ###
 
-### Dockerfile ###
+## Spring Boot To Docker ##
 
 ### Docker Compose ###
