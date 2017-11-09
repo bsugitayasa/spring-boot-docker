@@ -1,15 +1,15 @@
 # Spring Boot + Docker #
 
-Roadmap
+##### Roadmap #####
 
 * Overview Docker
 * Integrasi Spring Boot dengan Docker
 
 ## Docker ##
 
-### Virtual Mechine VS Docker ###
+#### Virtual Mechine VS Docker ####
 
-### Instalasi Docker ###
+#### Instalasi Docker ####
 
 - Installasi Docker pada Mac 
     (https://docs.docker.com/docker-for-mac/)
@@ -17,11 +17,11 @@ Roadmap
 - Installasi Docker pada Windows
     (https://docs.docker.com/docker-for-windows/)
 
-### Dockerfiles, Images and Containers ###
+#### Dockerfiles, Images and Containers ####
 
 ## Spring Boot To Docker ##
 
-### Aplikasi Spring Boot ###
+#### Aplikasi Spring Boot ####
 
 #### Docker Compose ####
 
