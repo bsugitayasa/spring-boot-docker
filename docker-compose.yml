@@ -1,0 +1,25 @@
+version: "3.3" 
+services:
+  spring-demo1:
+    build: spring-demo1/
+    image: springdocker/spring-demo1:latest
+    container_name: spring-demo1
+    ports:
+      - 8080:8080
+    hostname: spring.demo.1
+    
+  spring-demo2:
+    build: spring-demo2/
+    image: springdocker/spring-demo2:latest
+    container_name: spring-demo2
+    ports:
+      - 8081:8080
+    hostname: spring.demo.2
+    restart: on-failure
+    depends_on:
+      - spring-demo1
+
+#networks:
+#  default:
+#    external:
+#      name: bridge
