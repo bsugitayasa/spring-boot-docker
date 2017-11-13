@@ -98,7 +98,7 @@ Pertama kita akan membuat aplikasi spring boot melalui spring initializr:
 
         @RequestMapping("/spring/demo1/")
         public String hello(){
-            return "Hello Docker World from Spring-Demo-1"
+            return "Hello Docker World from Spring-Demo-1";
         }
 
         public static void main(String[] args) {
@@ -122,10 +122,73 @@ Setelah aplikasi sederhana berjalan dan memberikan response di local, selanjutny
 
 ![dockerfile] (img/dockerfile.jpg)
 
+Docker telah menyediakan dockerfile format yang digunakan untuk spesifik layer image pada docker. Dengan menggunakan dockerfile kita dapat mem-build sebuah aplikasi pada docker termasuk komponen os maupun konfigurasi yang diinginkan. Langkah selanjutnya buat sebuah Dockerfile pada aplikasi spring boot.
+
+```dockerfile
+FROM openjdk:8-jdk-alpine
+ADD target/spring-demo1.jar demo1.jar
+ENV JAVA_OPTS=""
+ENTRYPOINT exec java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /demo.jar
+```
+
+Format dockerfile diatas berfungsi untuk menambah spring-demo1-0.0.1-SNAPSHOT.jar kedalam docker sebagai demo1.jar dan selanjutya mengeksekusi *ENTRYPOINT* sesuai perintah pada dockerfile. Sedangkan untuk mengurangi waktu startup aplikasi embeded tomcat yang dibawa oleh spring boot maka kita dapat menambahkan sistem properties yang menunjuk ke /dev/urandom pada container docker.
+
+Untuk melakukan build docker image menggunakan maven, maka perlu menambahkan plugin pada bagian pom.xml hasil pengembangan dari [Spotify] (https://github.com/spotify/dockerfile-maven) sebagai berikut:
+
+```java
+<properties>
+   <docker.image.prefix>springdocker</docker.image.prefix>
+</properties>
+<build>
+    <finalName>${project.artifactId}</finalName>
+    <plugins>
+        <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>dockerfile-maven-plugin</artifactId>
+            <version>1.3.4</version>
+            <configuration>
+                <repository>${docker.image.prefix}/${project.artifactId}</repository>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+
+Konfigurasi diatas akan menghasilkan :
+
+* Repository image pada docker dengan nama springdocker/spring-demo1
+* Secara default image pada docker akan diversioning dengan *latest* jika tidak diberikan versi, biasanya dapat diset menggunakan artifact id
+
+Kemudian untuk menjalankan via maven dapat menggunakan perintah berikut
+
+```java
+$ mvn clean install dockerfile:build
+```
+
+> Perlu dipastikan docker pada komputer telah menyala sebelum melakukan build project
+
+
 #### Docker Compose ####
 
-Learn how to use Docker Compose to run multi-container applications easily
+Setelah melakukan build dengan menggunakan Dockerfile untuk membentuk sebuah image pada docker, selanjutnya kita akan menggunakan *docker-compose*.
 
+> Docker compose berfungsi untuk menjalankan multi-container docker secara bersamaan secara mudah.
+
+Docker compose ini sangat berguna ketika aplikasi kita terpisah - pisah pada komputer yang berbeda, contohnya adalah aplikasi yang dibuat berada pada 1 container sedangkan database yang akan digunakan oleh aplikasi tersebut berada pada container yang lain. Ketika menggunakan docker compose maka kita dapat menjalankan kedua container tersebut secara bersamaan dan bahkan kita dapat melakukan link ke container yang kita inginkan.
+
+Docker compose biasanya telah include terinstall ketika kita melakukan installasi docker. Cara mudah untuk mengetahui docker compose pada komputer dapat melakukan pengecekan pada command line / terminal dengan perintah:
+
+```
+docker-compose -v
+```
+
+Untuk lebih memahami penggunakan docker compose, maka langkah selanjutnya mencoba membuat sebuah aplikasi spring boot (seperti langkah sebelumnya), misalnya diberi nama spring-demo2.
+
+Berikutnya pada root directory dibuat sebuah file dengan nama docker-compose.yml yang isinya sebagai berikut:
+
+```xml
+
+```
 
 ## Tools untuk Mengelola Docker ##
 
@@ -140,3 +203,4 @@ Learn how to use Docker Compose to run multi-container applications easily
 * [Spring Boot with Docker] (https://spring.io/guides/gs/spring-boot-docker/)
 * [Portainer.io] (https://portainer.io/)
 * [Kitematic] (https://kitematic.com/)
+* [Spotify Dockerfile Maven] (https://github.com/spotify/dockerfile-maven)
