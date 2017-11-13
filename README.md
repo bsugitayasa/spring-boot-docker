@@ -17,13 +17,36 @@ Docker berfungsi sebagai virtualisasi sebuah sistem operasi atau sebuah server a
 
 #### Virtual Mechine VS Docker ####
 
-![docker-vm](img/docker-vm.jpg)
-
 Dalam membangun program, pengembang biasanya menjalankan virtualisasi pada server sehingga proses pembuatan program dapat berjalan pada berbagai platform maupun konfigurasi hardware. Masalah yang dihadapi dengan virtualisasi adalah perlunya menyiapkan satu sistem operasi secara utuh, termasuk berbagai aplikasi yang dibawa sistem tersebut. Bisa dibayangkan dengan banyaknya virtualisasi yang berjalan di sebuah server akan memberatkan sistem tersebut.
 
-Container kemudian datang dan membawa beberapa perubahan. Dengan container, sebuah program ‘diikat’ beserta library-nya, file konfigurasi, dan seluruh hal yang dibutuhkannya. Perbedaan yang sangat terlihat dibandingkan dengan virtualisasi adalah container memiliki ukuran file yang jauh lebih kecil karena tidak perlu menyiapkan sistem operasi secara penuh. Dalam hal ini, pengembang biasa menyebutnya sebagai ‘lightweight’ platform. Aplikasi yang berjalan menggunakan container pun jauh lebih cepat dan lebih efisien.
+
+![docker-vm](img/docker-vm.jpg)
+
+Container kemudian datang dan membawa beberapa perubahan. Dengan container, sebuah program ‘diikat’ beserta library-nya, file konfigurasi, dan seluruh hal yang dibutuhkannya. Perbedaan yang sangat terlihat dibandingkan dengan virtualisasi adalah container memiliki ukuran file yang jauh lebih kecil karena tidak perlu menyiapkan sistem operasi secara penuh. Dalam hal ini, pengembang biasa menyebutnya sebagai *lightweight* platform. Aplikasi yang berjalan menggunakan container pun jauh lebih cepat dan lebih efisien.
+
+Berbeda dengan virtualisasi yang mana aplikasi berjalan di atas hypervisor dan guest OS, docker dapat menjalankan aplikasi langsung tanpa kedua hal tadi. Docker juga dilengkapi dengan fitur sandbox yang menjamin pengerjaan pengembang dan sysadmin tidak terganggu. Sandbox pada istilah keamanan komputer adalah mekanisme pemisahan aplikasi atau program tanpa mengganggu host (isolasi).
+
+
+#### Arsitektur Docker ####
+
+Docker terdiri dari beberapa element diantaranya Docker Images, Docker Container.
+
+![docker-view] (img/docker-view.jpg)
+
+
+##### Docker Image #####
+
+Docker images adalah sebuah template yang bersifat read only. Template ini sebenarnya adalah sebuah OS atau OS yang telah diinstall berbagai aplikasi. Docker images berfungsi untuk membuat docker container, dengan hanya 1 docker images kita dapat membuat banyak docker container.
+
+
+##### Docker Container #####
+
+Docker container bisa dikatakan sebagai sebuah folder, dimana docker container ini dibuat dengan menggunakan docker image. Setiap docker container disimpan maka akan terbentuk layer baru tepat diatas docker image atau base image diatasnya. Satu atau lebih docker container dapat dibuat dari 1 docker image dengan menggunakan perintah `docker run`. Docker container ini nantinya dapat dibuild sehingga akan menghasilkan sebuah docker image, dan docker image yang dihasilkan dari docker container ini dapat kita gunakan kembali untuk membuat docker container yang baru.
+
 
 #### Instalasi Docker ####
+
+Proses installasi docker dapat dengan mudah dilakukan baik pada platform Windows, Linux maupun Cac-os. Tahapan installasi docker dapat diliat pada tautan berikut:
 
 - Installasi Docker pada Mac 
     (https://docs.docker.com/docker-for-mac/)
@@ -31,11 +54,73 @@ Container kemudian datang dan membawa beberapa perubahan. Dengan container, sebu
 - Installasi Docker pada Windows
     (https://docs.docker.com/docker-for-windows/)
 
-#### Dockerfiles, Images and Containers ####
 
 ## Spring Boot To Docker ##
 
+Berikut adalah bagaimana membuat sebuah project sederhana berbasis spring boot dan build sebagai sebuah image ke dalam docker.
+
 #### Aplikasi Spring Boot ####
+
+Pertama kita akan membuat aplikasi spring boot melalui spring initializr:
+
+1. Browse ke [https://start.spring.io/] (https://start.spring.io/)
+
+2. Lengkapi Project Metadata
+
+    Group
+    
+    ```java
+    com.sheringsession.balicamp.springdocker    
+    ```
+
+    Artifact
+    
+    ```
+    spring-demo1
+    ```
+   
+    Dependencies
+    
+    ```java
+    Web
+    ```
+   
+3. Generate Project
+
+4. Download dan import pada IDE masing-masing
+
+5. Tambahkan pada class com.sheringsession.balicamp.springdocker.springdemo1.SpringDemo1Application seperti potongan code berikut:
+
+    ```java
+    @SpringBootApplication
+    @RestController
+    public class SpringDemo1Application {
+
+        @RequestMapping("/spring/demo1/")
+        public String hello(){
+            return "Hello Docker World from Spring-Demo-1"
+        }
+
+        public static void main(String[] args) {
+            SpringApplication.run(SpringDemo1Application.class, args);
+        }
+    }
+    ```
+    
+6. Build dan Run via Maven 
+
+    ```java
+    mvn spring-boot:run
+    ```
+    
+7. Coba akses via browser local ke halaman : http://localhost:8080/spring/demo1/
+
+Setelah aplikasi sederhana berjalan dan memberikan response di local, selanjutnya bagaimana melakukan build aplikasi spring boot menjadi image pada docker.
+
+
+#### Dockerfiles ####
+
+![dockerfile] (img/dockerfile.jpg)
 
 #### Docker Compose ####
 
@@ -46,3 +131,12 @@ Learn how to use Docker Compose to run multi-container applications easily
 
 - Kitematic (https://kitematic.com)
 - Portainer (https://portainer.io)
+
+
+## Referensi ##
+
+* [docker.com] (https://www.docker.com)
+* [Learn Docker in 12 Minutes] (https://youtu.be/YFl2mCHdv24)
+* [Spring Boot with Docker] (https://spring.io/guides/gs/spring-boot-docker/)
+* [Portainer.io] (https://portainer.io/)
+* [Kitematic] (https://kitematic.com/)
