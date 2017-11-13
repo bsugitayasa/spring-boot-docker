@@ -29,14 +29,14 @@ Berbeda dengan virtualisasi yang mana aplikasi berjalan di atas hypervisor dan g
 
 #### Arsitektur Docker ####
 
-Docker terdiri dari beberapa element diantaranya Docker Images, Docker Container.
+Docker terdiri dari beberapa element diantaranya Docker Images dan Docker Container.
 
 ![docker-view] (img/docker-view.jpg)
 
 
 ##### Docker Image #####
 
-Docker images adalah sebuah template yang bersifat read only. Template ini sebenarnya adalah sebuah OS atau OS yang telah diinstall berbagai aplikasi. Docker images berfungsi untuk membuat docker container, dengan hanya 1 docker images kita dapat membuat banyak docker container.
+Docker image adalah sebuah template yang bersifat read only. Template ini sebenarnya adalah sebuah OS atau OS yang telah diinstall berbagai aplikasi. Docker image berfungsi untuk membuat docker container, dengan hanya 1 docker image kita dapat membuat banyak docker container.
 
 
 ##### Docker Container #####
@@ -46,7 +46,7 @@ Docker container bisa dikatakan sebagai sebuah folder, dimana docker container i
 
 #### Instalasi Docker ####
 
-Proses installasi docker dapat dengan mudah dilakukan baik pada platform Windows, Linux maupun Cac-os. Tahapan installasi docker dapat diliat pada tautan berikut:
+Proses installasi docker dapat dengan mudah dilakukan baik pada platform Windows, Linux maupun Mac-os. Tahapan installasi docker dapat diliat pada tautan berikut:
 
 - Installasi Docker pada Mac 
     (https://docs.docker.com/docker-for-mac/)
